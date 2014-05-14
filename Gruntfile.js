@@ -98,7 +98,7 @@ module.exports = function (grunt) {
                         statements: 85
                     },
                     root: './lib',
-                    reportFormats: 'lcov'
+                    reportFormats: ['lcov']
                 }
             }
         },
