@@ -1,0 +1,42 @@
+{
+    "name": "dares",
+    "author": [
+        "Florian Rohm <florian.rohm@tngtech.com>",
+        "Alexander Zeilmann <alexander.zeilmann@tngtech.com>"
+    ],
+    "description": "A distributed heterogeneous data replication system",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TNG/Dares.git",
+    },
+    "main": "./lib/Dares.js",
+    "licenses": [{
+        "type": "Apache-2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }],
+    "dependencies": {
+        "async": "0.2.x"
+    },
+    "devDependencies": {
+        "chai": "1.x.x",
+        "grunt": "0.4.x",
+        "grunt-docker": "0.0.x",
+        "grunt-contrib-jshint": "0.10.x",
+        "grunt-contrib-watch": "~0.6.1",
+        "grunt-jscs-checker": "0.4.x",
+        "grunt-mocha-istanbul": "1.2.x",
+        "grunt-shell": "0.7.x",
+        "istanbul": "0.2.x",
+        "mocha": "1.x.x",
+        "rewire": "2.0.0"
+    },
+    "optionalDependencies": {},
+    "engine": "node >= 0.10.23",
+    "config": {
+        "blanket": {
+            "pattern": "lib",
+            "data-cover-never": "node_modules"
+        }
+    }
+}
