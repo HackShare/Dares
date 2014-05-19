@@ -199,15 +199,15 @@ describe( 'Coordination', function () {
             result = coord._determineOutdatedKeys( keyVersionMax );
         } );
 
-        it('should not include a current key', function () {
+        it( 'should not include a current key', function () {
             expect( result.outdated.currentKey ).to.be.undefined;
-        });
-        it('should include an outdated key', function () {
+        } );
+        it( 'should include an outdated key', function () {
             expect( result.outdated.outdatedKey ).not.to.undefined;
-        });
-        it('should include a key that is not present in the ', function () {
+        } );
+        it( 'should include a key that is not present in the ', function () {
             expect( result.outdated.nonPresentKey ).not.be.undefined;
-        });
+        } );
 
         describe( '#_processRead._allReadsReturned', function () {
             var rightCoord;

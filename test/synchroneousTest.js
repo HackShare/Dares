@@ -6,7 +6,7 @@ var util = require( '../lib/Dares/utility.js' );
 
 describe( 'Integration Tests', function () {
 
-    it('should be able to randomly read and write under varying conditions', function ( done ) {
+    it( 'should be able to randomly read and write under varying conditions', function ( done ) {
         this.timeout( 500000 );
         var Process = require( '../lib/Dares/process.js' );
         var jsonToPrettyString = require( '../lib/Dares/utility.js' ).jsonToPrettyString;
@@ -212,7 +212,7 @@ describe( 'Integration Tests', function () {
 
             for ( var i = 0; i < ProcessPool.length; i++ ) {
                 curr = ProcessPool[i];
-                console.log('Process ' + curr.id + ' on epoch ' + curr.dataReplicationCoordinator.epoch + ' with ' + curr.allProcesses.length + ' known Processes' );
+                console.log( 'Process ' + curr.id + ' on epoch ' + curr.dataReplicationCoordinator.epoch + ' with ' + curr.allProcesses.length + ' known Processes' );
 
                 console.log( 'stored: \n' + storeToString( curr.storage.getAll() ) );
 

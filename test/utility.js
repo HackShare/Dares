@@ -184,12 +184,12 @@ describe( 'Utility', function () {
     } );
 
     describe( '#jsonToPrettyString', function () {
-        it('should behave exactly like  JSON.stringify( -input-, undefined, 2 )', function () {
+        it( 'should behave exactly like  JSON.stringify( -input-, undefined, 2 )', function () {
             expect( utility.jsonToPrettyString( sampleEdges) ).to.be.deep.equal( JSON.stringify( sampleEdges, undefined, 2 ));
             expect( utility.jsonToPrettyString( sampleList) ).to.be.deep.equal( JSON.stringify( sampleList, undefined, 2 ));
             expect( utility.jsonToPrettyString( sampleEdges[2]) ).to.be.deep.equal( JSON.stringify( sampleEdges[2], undefined, 2 ));
             expect( utility.jsonToPrettyString( sampleList[2]) ).to.be.deep.equal( JSON.stringify( sampleList[2], undefined, 2 ));
-        });
+        } );
     } );
 
     describe( '#extractIds', function () {

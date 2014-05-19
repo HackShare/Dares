@@ -79,17 +79,17 @@ describe( 'Integration Tests', function () {
 
         } );
 
-        after( function (done) {
-            process2.stop(function () {
-                process3.stop(function () {
-                    process4.stop(done);
-                });
-            });
+        after( function ( done ) {
+            process2.stop( function () {
+                process3.stop( function () {
+                    process4.stop( done );
+                } );
+            } );
         } );
     } );
 
-    after( function (done) {
-        process1.stop(done);
+    after( function ( done ) {
+        process1.stop( done );
     } );
 
 } );
