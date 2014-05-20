@@ -29,7 +29,8 @@
         "grunt-shell": "0.7.x",
         "istanbul": "0.2.x",
         "mocha": "1.x.x",
-        "rewire": "2.0.0"
+        "rewire": "2.0.0",
+        "winston": "0.7.x"
     },
     "engine": "node >= 0.10.23",
     "scripts": {
