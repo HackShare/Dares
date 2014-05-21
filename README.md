@@ -1,15 +1,16 @@
 Dares
 ========
 
-####Distributed Heterogeneous Dynamic Quorum-based Data Replication
+#### Distributed Heterogeneous Dynamic Quorum-based Data Replication
 
 Dares is a proof-of-concept implementation of a distributed heterogeneous dynamic quorum-based data replication scheme. The theoretical foundations are described in
   [Storm 2012](http://link.springer.com/book/10.1007%2F978-3-8348-2381-6 "Specification and Analytical Evaluation of Heterogeneous Dynamic Quorum-Based Data Replication Schemes").
  
+We presented Dares at the 13th MNUG meet-up. A video of the talk can be found [here](http://www.youtube.com/watch?v=Avq9nY_XXH8 "2014.05.14 MNUG - Dares a distributed heterogeneous data replication system").
 
 Getting started
 ---------------
-###Install
+### Install
 List Dares in your package.json:
 
 	"dares": "~0.0.1",
@@ -21,7 +22,7 @@ and run
 to install it as a dependency.
 
 
-### Initialisation
+### Initialization
 After installing you will be able to use Dares.js by 
 
       var Dares = require( 'dares' );
