@@ -1,72 +1,63 @@
 'use strict';
 
 var expect = require( 'chai' ).expect;
-var options = require( '../lib/Dares/defaults.js' );
-var util = require( '../lib/Dares/utility.js' );
+var Dares = require( '../lib/Dares' );
 
 describe( 'Integration Tests', function () {
 
     it( 'should be able to randomly read and write under varying conditions', function ( done ) {
-        this.timeout( 500000 );
-        var Process = require( '../lib/Dares/process.js' );
-        var jsonToPrettyString = require( '../lib/Dares/utility.js' ).jsonToPrettyString;
+        this.timeout( 50000 );
+        var upperBoundForPool = 20;
+        var lowerBoundForPool = 8;
+        var iterations = 10;
+        var maxStopPerIteration = 1;
+        var maxAddPerIteration = 2;
 
+        var keyPool = ['key1', 'key2', 'key3', 'key4'];
+        var allActions;
 
-        var ProcessPool = [];
+        var rwPerIteration = 40;
+
         var currentLastId = 1;
-        var iterations = 50;
-        var rwPerIteration = 20;
-        var maxPool = 20;
-        var minPool = 8;
-
-        var options1 = util.cloneObject( options );
-        options1.port = 9001;
-        options1.id = 1;
-
-        ProcessPool.push( new Process( {options: options1} ) );
-
-        var processData = getProcessData( 16 );
-        startProcesses( function () {
-            beginRandomReadsAndWrites( 10, shutProcessDownAndRW );
-        } );
+        var newInstanceData;
+        var daresInstances = [];
 
 
-        function startProcesses ( continueWith ) {
-            if ( processData.length === 0 ) {
-                continueWith();
-            } else {
-                var next = processData.pop();
-                var someKnownProcess = ProcessPool[0];
-                next.options.alreadyRegisteredProcess = someKnownProcess.address + ':' + someKnownProcess.port;
-                ProcessPool.push( new Process( next, function () {
-                    startProcesses( continueWith );
-                } ) );
+        var getInstanceData = function ( n ) {
+            var res = [];
+
+            for ( var i = currentLastId + n ; i > currentLastId ; i-- ) {
+                res.push( {
+                    port: 9000 + i,
+                    id: i
+                } );
             }
-        }
+            currentLastId = currentLastId + n;
+            return res;
+        };
 
 
-        function shutProcessDownAndRW () {
-            if ( ProcessPool.length > minPool ) {
-                var count = getRandomInt( 1, 3 );
-                for ( count; count > 0; count-- ) {
-                    shutRandomProcessDown();
+        var initiateAllActions = function ( keys ) {
+            var res = {};
+            for ( var key in keys ) {
+                if ( keys.hasOwnProperty( key ) ) {
+                    res[keys[key]] = {value: null, continuous: [], separate: []};
                 }
             }
-            insertSeparatorToRes();
-            beginRandomReadsAndWrites( rwPerIteration, addProcessesAndRW, true );
-        }
+            return res;
+        };
 
-        function addProcessesAndRW () {
-            if ( ProcessPool.length < maxPool ) {
-                processData = getProcessData( getRandomInt( 1, 3 ) );
+
+        var addInstancesAndRW = function () {
+            if ( daresInstances.length < upperBoundForPool ) {
+                newInstanceData = getInstanceData( getRandomInt( 1, Math.min( upperBoundForPool - daresInstances.length, maxAddPerIteration ) ) );
             }
             insertSeparatorToRes();
-            startProcesses( function () {
+            startInstances( function () {
                     beginRandomReadsAndWrites( rwPerIteration, function () {
                         if ( iterations ) {
-                            console.log( '-------------\n Iterations left: ' + iterations + '\n-------------' );
                             iterations--;
-                            shutProcessDownAndRW();
+                            shutInstanceDownAndRW();
                         } else {
                             setTimeout( function () {
                                 endIt();
@@ -75,22 +66,89 @@ describe( 'Integration Tests', function () {
                     }, true );
                 }
             );
-        }
+        };
 
 
-// random reads and writes
-        var keyPool = ['key1', 'key2', 'key3', 'key4'];
-        var allActions = initiateAllActions( keyPool );
+        var shutInstanceDownAndRW = function () {
+            var continueWith = function () {
+                insertSeparatorToRes();
+                beginRandomReadsAndWrites( rwPerIteration, function () {
+                    if ( iterations ) {
+                        iterations--;
+                        addInstancesAndRW();
+                    } else {
+                        setTimeout( function () {
+                            endIt();
+                        }, 100 );
+                    }
+                }, true );
+            };
+            var count = 0;
 
-        function beginRandomReadsAndWrites ( n, afterwards, read ) {
-            var randomProcess = getRandomProcess();
-            var itsDRC = randomProcess.dataReplicationCoordinator;
+            if ( daresInstances.length > lowerBoundForPool ) {
+                count = getRandomInt( 1, Math.min( daresInstances.length - lowerBoundForPool, maxStopPerIteration ) );
+            }
+            shutRandomInstanceDown( count, continueWith );
+        };
+
+        var shutRandomInstanceDown = function ( count, continueWith ) {
+            if ( count > 0 ) {
+                var i = getRandomInt( 0, daresInstances.length - 1 );
+                var instance = daresInstances.splice( i, 1 )[0];
+
+                instance.stop( function () {
+                    shutRandomInstanceDown( count - 1, continueWith );
+                } );
+            } else {
+                continueWith();
+            }
+        };
+
+        var startInstances = function ( continueWith ) {
+            if ( newInstanceData.length === 0 ) {
+                continueWith();
+            } else {
+                var nextData = newInstanceData.pop();
+                var someKnownInstance = daresInstances[0];
+                var alreadyRegisteredProcess = {
+                    alreadyRegisteredProcess: 'localhost:' + someKnownInstance.options.port,
+                    logSettings: {
+                        console: 'error'
+                    }
+                };
+                
+                var newInstance = new Dares( nextData.id, nextData.port, alreadyRegisteredProcess);
+
+                daresInstances.push(newInstance);
+                newInstance.start(function (success) {
+                    if (!success){
+                        daresInstances.pop();
+                        newInstanceData.push(nextData);
+                    }
+                    startInstances( continueWith );
+                });
+            }
+        };
+
+
+        var insertSeparatorToRes = function () {
+            for ( var key in allActions ) {
+                if ( allActions.hasOwnProperty( key ) ) {
+                    allActions[key].continuous.push( 'changed process pool' );
+                }
+            }
+        };
+
+
+        var beginRandomReadsAndWrites = function ( n, afterwards, read ) {
+
+            var randomInstance = getRandomInstance();
             if ( n > 0 ) {
                 var key = getRandomKey();
                 var value = getRandomIntPredefined();
                 if ( !read && getRandomInt( 0, 1 ) ) {
 
-                    itsDRC.write( key, value,
+                    randomInstance.write( key, value,
                         function ( success ) {
                             if ( success ) {
                                 allActions[key].value = value;
@@ -99,16 +157,14 @@ describe( 'Integration Tests', function () {
                                 allActions[key].separate.push( [value] );
                             } else {
                                 allActions[key].continuous.push( 'failed to write ' + value );
-                                console.log( 'Writing ' + key + ' with value ' + value + ' was not successful' );
                             }
-                            console.log( '-----new Operation with n=' + (n - 1) + '-----' );
                             setTimeout( function () {
                                 beginRandomReadsAndWrites( n - 1, afterwards, false );
                             }, 0 );
                         }
                     );
                 } else {
-                    itsDRC.read( key,
+                    randomInstance.read( key,
                         function ( success, val ) {
                             if ( success ) {
                                 allActions[key].lastRead = val;
@@ -119,13 +175,13 @@ describe( 'Integration Tests', function () {
                                 }
                                 if ( val !== allActions[key].value ) {
                                     console.log( 'wrong read!' );
+                                    console.log( 'read: ' +  val + ', actual value: ' + allActions[key].value );
                                 }
 
                             } else {
                                 allActions[key].continuous.push( 'failed to read ' );
                                 console.log( 'Reading ' + key + ' was not successful' );
                             }
-                            console.log( '-----new Operation with n=' + (n - 1) + '-----' );
                             setTimeout( function () {
                                 beginRandomReadsAndWrites( n - 1, afterwards, false );
                             }, 0 );
@@ -135,130 +191,32 @@ describe( 'Integration Tests', function () {
             } else {
                 afterwards();
             }
-        }
-
-
-        function getProcessData ( n ) {
-            var options2;
-            var res = [];
-
-            for ( var i = currentLastId + 1; i < currentLastId + n + 1; i++ ) {
-                options2 = util.cloneObject( options );
-                options2.port = 9000 + i;
-                options2.id = i;
-                res.push( {options: options2} );
-            }
-            currentLastId = currentLastId + n;
-            return res;
-        }
-
-        function getRandomInt ( min, max ) {
-            return Math.floor( Math.random() * (max - min + 1) ) + min;
-        }
-
-        function getRandomIntPredefined () {
-            return getRandomInt( 0, 30 );
-        }
-
-        function getRandomProcess () {
-            return ProcessPool[getRandomInt( 0, ProcessPool.length - 1 )];
-        }
-
-        function getRandomKey () {
-            return keyPool[getRandomInt( 0, keyPool.length - 1 )];
-        }
-
-        function initiateAllActions ( keys ) {
-            var res = {};
-            for ( var key in keys ) {
-                if ( keys.hasOwnProperty( key ) ) {
-                    res[keys[key]] = {continuous: [], separate: []};
-                }
-            }
-            return res;
-        }
-
-        function shutRandomProcessDown () {
-            var i = getRandomInt( 0, ProcessPool.length - 1 );
-            var process = ProcessPool[i];
-            ProcessPool.splice( i, 1 );
-            process.stop();
-        }
-        function insertSeparatorToRes () {
-            for ( var key in allActions ) {
-                if ( allActions.hasOwnProperty( key ) ) {
-                    allActions[key].continuous.push( 'changed process pool' );
-                }
-            }
-        }
-
-
-        var stripSeparate = function ( allActions ) {
-            //probably not the most efficient way, but does the job...
-            var copy = JSON.parse( JSON.stringify( allActions ) );
-
-            for ( var key in copy ) {
-                if ( copy.hasOwnProperty( key ) ) {
-                    delete copy[key].separate;
-                }
-            }
-            return copy;
         };
 
-        function printAll () {
-            console.log( '------------------' );
-            var curr;
+
+        var endIt = function () {
+            testAll();
+
+            shutRandomInstanceDown( daresInstances.length, done );
+        };
+
+        var testAll = function () {
             var key;
 
-            for ( var i = 0; i < ProcessPool.length; i++ ) {
-                curr = ProcessPool[i];
-                console.log( 'Process ' + curr.id + ' on epoch ' + curr.dataReplicationCoordinator.epoch + ' with ' + curr.allProcesses.length + ' known Processes' );
-
-                console.log( 'stored: \n' + storeToString( curr.storage.getAll() ) );
-
-            }
-
-            console.log( '------------------' );
-            console.log( 'results' );
-            console.log( jsonToPrettyString( stripSeparate( allActions ) ) );
             var separate;
             for ( var j = 0; j < keyPool.length; j++ ) {
                 key = keyPool[j];
                 separate = checkSeparate( allActions[key].separate );
                 expect( separate ).to.be.true;
-                if ( separate ) {
-                    console.log( 'key "' + key + '" is clean.' );
-                } else {
+                if ( !separate ) {
                     console.log( 'key "' + key + '" violates continuous integrity.' );
-
-                }
-
-            }
-
-
-            console.log( '------------------' );
-            function storeToString ( store ) {
-                var str = '';
-
-                for ( var key in store ) {
-                    if ( store.hasOwnProperty( key ) ) {
-                        str = str + 'key: ' + key + ', value: ' + store[key].value + ', version: ' + store[key].version + '\n';
-                    }
-                }
-                return str;
-            }
-
-        }
-
-        function checkSeparate ( sepArr ) {
-            for ( var i = 0; i < sepArr.length; i++ ) {
-                if ( !partialArrIsHomogen( sepArr[i] ) ) {
-                    return false;
                 }
             }
-            return true;
+        };
 
-            function partialArrIsHomogen ( smallArr ) {
+        var checkSeparate = function ( sepArr ) {
+
+            var partialArrIsHomogen = function ( smallArr ) {
                 if ( smallArr.length > 0 ) {
                     for ( var i = 1; i < smallArr.length; i++ ) {
                         if ( smallArr[i] !== smallArr[0] ) {
@@ -267,18 +225,56 @@ describe( 'Integration Tests', function () {
                     }
                 }
                 return true;
+            };
 
+
+            for ( var i = 0; i < sepArr.length; i++ ) {
+                if ( !partialArrIsHomogen( sepArr[i] ) ) {
+                    return false;
+                }
             }
-        }
+            return true;
+        };
 
-        function endIt () {
-            printAll();
-            while ( ProcessPool.length > 0 ) {
-                shutRandomProcessDown();
+
+        var getRandomInstance = function () {
+            var randInt = getRandomInt( 0, daresInstances.length - 1 );
+            return daresInstances[randInt];
+        };
+
+        var getRandomInt = function ( min, max ) {
+            return Math.floor( Math.random() * (max - min + 1) ) + min;
+        };
+
+        var getRandomKey = function () {
+            return keyPool[getRandomInt( 0, keyPool.length - 1 )];
+        };
+
+        var getRandomIntPredefined = function () {
+            return getRandomInt( 0, 42 );
+        };
+
+        var start = function () {
+            newInstanceData = getInstanceData( 8 );
+            startInstances( function () {
+                beginRandomReadsAndWrites( rwPerIteration, shutInstanceDownAndRW );
+            } );
+
+        };
+
+        //actual code
+
+
+        allActions = initiateAllActions( keyPool );
+        
+        
+        var firstInstance = new Dares( currentLastId, 9001, {
+            logSettings: {
+                console: 'error'
             }
-            done();
-        }
+        } );
 
-    });
-
+        daresInstances.push( firstInstance );
+        firstInstance.start( start );
+    } );
 } );

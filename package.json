@@ -21,6 +21,7 @@
     "devDependencies": {
         "chai": "1.x.x",
         "grunt": "0.4.x",
+        "grunt-coveralls": "0.3.x",
         "grunt-docker": "0.0.x",
         "grunt-contrib-jshint": "0.10.x",
         "grunt-contrib-watch": "0.6.x",
@@ -34,6 +35,6 @@
     },
     "engine": "node >= 0.10.23",
     "scripts": {
-        "test": "grunt test"
+        "test": "grunt continuousIntegration"
     }
 }

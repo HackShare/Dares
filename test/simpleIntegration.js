@@ -21,18 +21,30 @@ describe( 'Integration Tests', function () {
 
     options1.id = 1;
     options1.port = 8001;
+    options1.logSettings = {
+        console: 'error'
+    };
 
     options2.id = 2;
     options2.port = 8002;
     options2.alreadyRegisteredProcess = known;
+    options2.logSettings = {
+        console: 'error'
+    };
 
     options3.id = 3;
     options3.port = 8003;
     options3.alreadyRegisteredProcess = known;
+    options3.logSettings = {
+        console: 'error'
+    };
 
     options4.id = 4;
     options4.port = 8004;
     options4.alreadyRegisteredProcess = known;
+    options4.logSettings = {
+        console: 'error'
+    };
 
     before( function ( done ) {
         process1 = new Process( {options: options1}, function () {

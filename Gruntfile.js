@@ -18,6 +18,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-coveralls');
     grunt.loadNpmTasks('grunt-docker');
     grunt.loadNpmTasks('grunt-jscs-checker');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
@@ -84,10 +85,7 @@ module.exports = function (grunt) {
         },
 
         mocha_istanbul: {
-            coverage: {
-                src: 'test'
-            },
-            coveralls: {
+            Dares: {
                 src: 'test',
                 options: {
                     coverage: true,
@@ -101,6 +99,15 @@ module.exports = function (grunt) {
                     reportFormats: ['lcov']
                 }
             }
+        },
+
+        coveralls: {
+            options: {
+                force: true
+            },
+            Dares: {
+                src: './coverage/lcov.info'
+            },
         },
 
         docker: {
@@ -128,4 +135,5 @@ module.exports = function (grunt) {
     grunt.registerTask('push', ['shell:push']);
     grunt.registerTask('precommit', ['mocha_istanbul', 'jshint', 'jscs', 'docker']);
     grunt.registerTask('default', ['help']);
+    grunt.registerTask('continuousIntegration', ['test', 'coveralls']);
 };
