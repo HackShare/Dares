@@ -88,7 +88,18 @@ describe( 'Integration Tests', function () {
                         done();
                     } );
                 } );
+        } );
 
+        it( 'should be possible to use hasOwnProperty as a key', function ( done ) {
+            process2.dataReplicationCoordinator.write( 'hasOwnProperty', 42,
+                function ( success ) {
+                    expect( success ).to.be.true;
+                    process2.dataReplicationCoordinator.read( 'hasOwnProperty', function ( success, val ) {
+                        expect( success ).to.be.true;
+                        expect( val ).to.be.equal( 42 );
+                        done();
+                    } );
+                } );
         } );
 
         after( function ( done ) {
