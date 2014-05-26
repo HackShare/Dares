@@ -1,6 +1,8 @@
 Dares
 ========
 
+[![Build Status](https://travis-ci.org/TNG/Dares.svg?branch=master)](https://travis-ci.org/TNG/Dares) [![Dependency Status](https://david-dm.org/TNG/Dares.svg)](https://david-dm.org/TNG/Dares) [![devDependency Status](https://david-dm.org/TNG/Dares/dev-status.svg)](https://david-dm.org/TNG/Dares#info=devDependencies)
+
 #### Distributed Heterogeneous Dynamic Quorum-based Data Replication
 
 Dares is a proof-of-concept implementation of a distributed heterogeneous dynamic quorum-based data replication scheme. The theoretical foundations are described in

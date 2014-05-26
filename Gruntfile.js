@@ -107,7 +107,7 @@ module.exports = function (grunt) {
             },
             Dares: {
                 src: './coverage/lcov.info'
-            },
+            }
         },
 
         docker: {
@@ -129,6 +129,10 @@ module.exports = function (grunt) {
                 command: 'git push --all origin'
             }
         }
+    });
+
+    grunt.event.on('coverage', function ( lcovFileContents, done ) {
+        done();
     });
 
     grunt.registerTask('test', ['mocha_istanbul']);
