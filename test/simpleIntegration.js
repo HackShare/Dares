@@ -69,39 +69,6 @@ describe( 'Integration Tests', function () {
             expect( process1.allProcesses ).to.have.length( 4 );
         } );
 
-
-        it( 'should write without error', function ( done ) {
-            process2.dataReplicationCoordinator.write( 'key1', 15,
-                function ( success ) {
-                    expect( success ).to.be.true;
-                    done();
-                } );
-        } );
-
-        it( 'should read the provided key', function ( done ) {
-            process2.dataReplicationCoordinator.write( 'readThis', 42,
-                function ( success ) {
-                    expect( success ).to.be.true;
-                    process2.dataReplicationCoordinator.read( 'readThis', function ( success, val ) {
-                        expect( success ).to.be.true;
-                        expect( val ).to.be.equal( 42 );
-                        done();
-                    } );
-                } );
-        } );
-
-        it( 'should be possible to use hasOwnProperty as a key', function ( done ) {
-            process2.dataReplicationCoordinator.write( 'hasOwnProperty', 42,
-                function ( success ) {
-                    expect( success ).to.be.true;
-                    process2.dataReplicationCoordinator.read( 'hasOwnProperty', function ( success, val ) {
-                        expect( success ).to.be.true;
-                        expect( val ).to.be.equal( 42 );
-                        done();
-                    } );
-                } );
-        } );
-
         after( function ( done ) {
             process2.stop( function () {
                 process3.stop( function () {
