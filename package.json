@@ -29,6 +29,7 @@
         "grunt-mocha-istanbul": "~1.4.0",
         "grunt-shell": "0.7.x",
         "istanbul": "0.2.x",
+        "jscs-jsdoc": "~0.0.6",
         "mocha": "1.x.x",
         "rewire": "~2.0.0",
         "winston": "0.7.x"

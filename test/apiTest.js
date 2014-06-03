@@ -103,32 +103,32 @@ describe( 'API Tests', function () {
                     counter2++;
                 };
 
-            instance1.onNewKey(inc1);
-            instance2.onNewKey(inc1);
-            instance3.onNewKey(inc1);
-            instance4.onNewKey(inc1);
+            instance1.onNewKey( inc1 );
+            instance2.onNewKey( inc1 );
+            instance3.onNewKey( inc1 );
+            instance4.onNewKey( inc1 );
 
-            instance1.onNewKey(inc2);
-            instance2.onNewKey(inc2);
-            instance3.onNewKey(inc2);
-            instance4.onNewKey(inc2);
+            instance1.onNewKey( inc2 );
+            instance2.onNewKey( inc2 );
+            instance3.onNewKey( inc2 );
+            instance4.onNewKey( inc2 );
 
             instance2.write( 'newKey', 'onNewKeyTest',
                 function ( success ) {
                     expect( success ).to.be.true;
-                    expect( counter1 ).to.be.equal( 3 )
-                    expect( counter2 ).to.be.equal( 3 )
+                    expect( counter1 ).to.be.equal( 3 );
+                    expect( counter2 ).to.be.equal( 3 );
 
-                    instance1.offNewKey(inc1);
-                    instance2.offNewKey(inc1);
-                    instance3.offNewKey(inc1);
-                    instance4.offNewKey(inc1);
+                    instance1.offNewKey( inc1 );
+                    instance2.offNewKey( inc1 );
+                    instance3.offNewKey( inc1 );
+                    instance4.offNewKey( inc1 );
 
                     instance2.write( 'newKey1', 'onNewKeyTest',
                         function ( success ) {
                             expect( success ).to.be.true;
-                            expect( counter1 ).to.be.equal( 3 )
-                            expect( counter2 ).to.be.equal( 6 )
+                            expect( counter1 ).to.be.equal( 3 );
+                            expect( counter2 ).to.be.equal( 6 );
                             done();
                         } );
                 } );
@@ -141,15 +141,15 @@ describe( 'API Tests', function () {
                     counter++;
                 };
 
-            instance1.onNewKey(inc);
-            instance2.onNewKey(inc);
-            instance3.onNewKey(inc);
-            instance4.onNewKey(inc);
+            instance1.onNewKey( inc );
+            instance2.onNewKey( inc );
+            instance3.onNewKey( inc );
+            instance4.onNewKey( inc );
 
             instance2.write( 'newKey2', 'onNewKeyTest',
                 function ( success ) {
                     expect( success ).to.be.true;
-                    expect( counter ).to.be.equal( 3 )
+                    expect( counter ).to.be.equal( 3 );
 
                     instance1.offNewKey();
                     instance2.offNewKey();
@@ -159,7 +159,7 @@ describe( 'API Tests', function () {
                     instance2.write( 'newKey3', 'onNewKeyTest',
                         function ( success ) {
                             expect( success ).to.be.true;
-                            expect( counter ).to.be.equal( 3 )
+                            expect( counter ).to.be.equal( 3 );
                             done();
                         } );
                 } );
@@ -176,33 +176,33 @@ describe( 'API Tests', function () {
                     counter2++;
                 };
 
-            instance1.onChange(inc1);
-            instance2.onChange(inc1);
-            instance3.onChange(inc1);
-            instance4.onChange(inc1);
+            instance1.onChange( inc1 );
+            instance2.onChange( inc1 );
+            instance3.onChange( inc1 );
+            instance4.onChange( inc1 );
 
-            instance1.onChange(inc2);
-            instance2.onChange(inc2);
-            instance3.onChange(inc2);
-            instance4.onChange(inc2);
+            instance1.onChange( inc2 );
+            instance2.onChange( inc2 );
+            instance3.onChange( inc2 );
+            instance4.onChange( inc2 );
 
 
             instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                setTimeout(function () {
+                setTimeout( function () {
                     expect( success ).to.be.true;
-                    expect( counter1 ).to.be.equal( 3 )
-                    expect( counter2 ).to.be.equal( 3 )
+                    expect( counter1 ).to.be.equal( 3 );
+                    expect( counter2 ).to.be.equal( 3 );
 
-                    instance1.offChange(inc1);
-                    instance2.offChange(inc1);
-                    instance3.offChange(inc1);
-                    instance4.offChange(inc1);
+                    instance1.offChange( inc1 );
+                    instance2.offChange( inc1 );
+                    instance3.offChange( inc1 );
+                    instance4.offChange( inc1 );
 
                     instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                        setTimeout(function () {
+                        setTimeout( function () {
                             expect( success ).to.be.true;
-                            expect( counter1 ).to.be.equal( 3 )
-                            expect( counter2 ).to.be.equal( 6 )
+                            expect( counter1 ).to.be.equal( 3 );
+                            expect( counter2 ).to.be.equal( 6 );
                             done();
                         }, 10 );
                     } );
@@ -217,15 +217,15 @@ describe( 'API Tests', function () {
                     counter++;
                 };
 
-            instance1.onChange(inc);
-            instance2.onChange(inc);
-            instance3.onChange(inc);
-            instance4.onChange(inc);
+            instance1.onChange( inc );
+            instance2.onChange( inc );
+            instance3.onChange( inc );
+            instance4.onChange( inc );
 
             instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                setTimeout(function () {
+                setTimeout( function () {
                     expect( success ).to.be.true;
-                    expect( counter ).to.be.equal( 3 )
+                    expect( counter ).to.be.equal( 3 );
 
                     instance1.offChange();
                     instance2.offChange();
@@ -233,12 +233,12 @@ describe( 'API Tests', function () {
                     instance4.offChange();
 
                     instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                        setTimeout(function () {
+                        setTimeout( function () {
                             expect( success ).to.be.true;
-                            expect( counter ).to.be.equal( 3 )
+                            expect( counter ).to.be.equal( 3 );
                             done();
                         } );
-                    }, 10);
+                    }, 10 );
                 }, 10 );
             } );
         } );

@@ -1,4 +1,7 @@
 {
+    "additionalRules": [
+        "node_modules/jscs-jsdoc/lib/rules/*.js"
+    ],
     "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
     "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
     "requireParenthesesAroundIIFE": true,
@@ -25,5 +28,14 @@
         "beforeOpeningCurlyBrace": true,
         "beforeOpeningRoundBrace": true
     },
-    "validateQuoteMarks": "'"
+    "validateQuoteMarks": "'",
+    "jsDoc": {
+        "checkParamNames": true,
+        "checkRedundantParams": true,
+        "requireParamTypes": true,
+        "checkReturnTypes": true,
+        "checkRedundantReturns": true,
+        "requireReturnTypes": true,
+        "checkTypes": true
+    }
 }
