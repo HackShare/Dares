@@ -6,7 +6,7 @@ var Dares = require( '../lib/Dares' );
 describe( 'Integration Tests', function () {
 
     it( 'should be able to randomly read and write under varying conditions', function ( done ) {
-        this.timeout( 50000 );
+        this.timeout( 20000 );
         var upperBoundForPool = 20;
         var lowerBoundForPool = 8;
         var iterations = 10;
