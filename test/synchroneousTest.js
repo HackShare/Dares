@@ -3,10 +3,10 @@
 var expect = require( 'chai' ).expect;
 var Dares = require( '../lib/Dares' );
 
-describe( 'Integration Tests', function () {
+describe( 'Synchoneous Test', function () {
 
     it( 'should be able to randomly read and write under varying conditions', function ( done ) {
-        this.timeout( 20000 );
+        this.timeout( 10000 );
         var upperBoundForPool = 20;
         var lowerBoundForPool = 8;
         var iterations = 10;
@@ -120,8 +120,8 @@ describe( 'Integration Tests', function () {
                 var newInstance = new Dares( nextData.id, nextData.port, alreadyRegisteredProcess);
 
                 daresInstances.push(newInstance);
-                newInstance.start(function (success) {
-                    if (!success){
+                newInstance.start(function (error) {
+                    if (error){
                         daresInstances.pop();
                         newInstanceData.push(nextData);
                     }
@@ -149,8 +149,8 @@ describe( 'Integration Tests', function () {
                 if ( !read && getRandomInt( 0, 1 ) ) {
 
                     randomInstance.write( key, value,
-                        function ( success ) {
-                            if ( success ) {
+                        function ( error ) {
+                            if ( !error ) {
                                 allActions[key].value = value;
                                 allActions[key].lastRead = 'no recent reads';
                                 allActions[key].continuous.push( 'wrote ' + value );
@@ -165,17 +165,17 @@ describe( 'Integration Tests', function () {
                     );
                 } else {
                     randomInstance.read( key,
-                        function ( success, val ) {
-                            if ( success ) {
-                                allActions[key].lastRead = val;
-                                allActions[key].continuous.push( 'read ' + val );
-                                if ( val !== null ) {
+                        function ( error, returnObj ) {
+                            if ( !error ) {
+                                allActions[key].lastRead = returnObj.value;
+                                allActions[key].continuous.push( 'read ' + returnObj.value );
+                                if ( returnObj.value !== null ) {
                                     var length = allActions[key].separate.length;
-                                    allActions[key].separate[(length - 1)].push( val );
+                                    allActions[key].separate[(length - 1)].push( returnObj.value );
                                 }
-                                if ( val !== allActions[key].value ) {
+                                if ( returnObj.value !== allActions[key].value ) {
                                     console.log( 'wrong read!' );
-                                    console.log( 'read: ' +  val + ', actual value: ' + allActions[key].value );
+                                    console.log( 'read: ' +  returnObj.value + ', actual value: ' + allActions[key].value );
                                 }
 
                             } else {

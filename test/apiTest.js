@@ -60,8 +60,8 @@ describe( 'API Tests', function () {
 
         it( 'should write without error', function ( done ) {
             instance2.write( 'key1', 15,
-                function ( success ) {
-                    expect( success ).to.be.true;
+                function ( error ) {
+                    expect( error ).to.be.falsy;
                     done();
                 } );
         } );
@@ -69,11 +69,11 @@ describe( 'API Tests', function () {
 
         it( 'should read the provided key', function ( done ) {
             instance2.write( 'readThis', 42,
-                function ( success ) {
-                    expect( success ).to.be.true;
-                    instance2.read( 'readThis', function ( success, val ) {
-                        expect( success ).to.be.true;
-                        expect( val ).to.be.equal( 42 );
+                function ( error ) {
+                    expect( error ).to.be.falsy;
+                    instance2.read( 'readThis', function ( error, returnObj ) {
+                        expect( error ).to.be.falsy;
+                        expect( returnObj.value ).to.be.equal( 42 );
                         done();
                     } );
                 } );
@@ -82,11 +82,11 @@ describe( 'API Tests', function () {
 
         it( 'should be possible to use hasOwnProperty as a key', function ( done ) {
             instance2.write( 'hasOwnProperty', 42,
-                function ( success ) {
-                    expect( success ).to.be.true;
-                    instance2.read( 'hasOwnProperty', function ( success, val ) {
-                        expect( success ).to.be.true;
-                        expect( val ).to.be.equal( 42 );
+                function ( error ) {
+                    expect( error ).to.be.falsy;
+                    instance2.read( 'hasOwnProperty', function ( error, returnObj ) {
+                        expect( error ).to.be.falsy;
+                        expect( returnObj.value ).to.be.equal( 42 );
                         done();
                     } );
                 } );
@@ -114,8 +114,8 @@ describe( 'API Tests', function () {
             instance4.onNewKey( inc2 );
 
             instance2.write( 'newKey', 'onNewKeyTest',
-                function ( success ) {
-                    expect( success ).to.be.true;
+                function ( error ) {
+                    expect( error ).to.be.falsy;
                     expect( counter1 ).to.be.equal( 3 );
                     expect( counter2 ).to.be.equal( 3 );
 
@@ -125,8 +125,8 @@ describe( 'API Tests', function () {
                     instance4.offNewKey( inc1 );
 
                     instance2.write( 'newKey1', 'onNewKeyTest',
-                        function ( success ) {
-                            expect( success ).to.be.true;
+                        function ( error ) {
+                            expect( error ).to.be.falsy;
                             expect( counter1 ).to.be.equal( 3 );
                             expect( counter2 ).to.be.equal( 6 );
                             done();
@@ -147,8 +147,8 @@ describe( 'API Tests', function () {
             instance4.onNewKey( inc );
 
             instance2.write( 'newKey2', 'onNewKeyTest',
-                function ( success ) {
-                    expect( success ).to.be.true;
+                function ( error ) {
+                    expect( error ).to.be.falsy;
                     expect( counter ).to.be.equal( 3 );
 
                     instance1.offNewKey();
@@ -157,8 +157,8 @@ describe( 'API Tests', function () {
                     instance4.offNewKey();
 
                     instance2.write( 'newKey3', 'onNewKeyTest',
-                        function ( success ) {
-                            expect( success ).to.be.true;
+                        function ( error ) {
+                            expect( error ).to.be.falsy;
                             expect( counter ).to.be.equal( 3 );
                             done();
                         } );
@@ -187,8 +187,8 @@ describe( 'API Tests', function () {
             instance4.onChange( inc2 );
 
 
-            instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                expect( success ).to.be.true;
+            instance2.write( 'newKey', 'onChangeTest', function ( error ) {
+                expect( error ).to.be.falsy;
                 expect( counter1 ).to.be.equal( 3 );
                 expect( counter2 ).to.be.equal( 3 );
 
@@ -197,8 +197,8 @@ describe( 'API Tests', function () {
                 instance3.offChange( inc1 );
                 instance4.offChange( inc1 );
 
-                instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                    expect( success ).to.be.true;
+                instance2.write( 'newKey', 'onChangeTest', function ( error ) {
+                    expect( error ).to.be.falsy;
                     expect( counter1 ).to.be.equal( 3 );
                     expect( counter2 ).to.be.equal( 6 );
                     done();
@@ -218,8 +218,8 @@ describe( 'API Tests', function () {
             instance3.onChange( inc );
             instance4.onChange( inc );
 
-            instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                expect( success ).to.be.true;
+            instance2.write( 'newKey', 'onChangeTest', function ( error ) {
+                expect( error ).to.be.falsy;
                 expect( counter ).to.be.equal( 3 );
 
                 instance1.offChange();
@@ -227,8 +227,8 @@ describe( 'API Tests', function () {
                 instance3.offChange();
                 instance4.offChange();
 
-                instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                        expect( success ).to.be.true;
+                instance2.write( 'newKey', 'onChangeTest', function ( error ) {
+                        expect( error ).to.be.falsy;
                         expect( counter ).to.be.equal( 3 );
                         done();
                     } );
