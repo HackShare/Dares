@@ -188,25 +188,21 @@ describe( 'API Tests', function () {
 
 
             instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                setTimeout( function () {
+                expect( success ).to.be.true;
+                expect( counter1 ).to.be.equal( 3 );
+                expect( counter2 ).to.be.equal( 3 );
+
+                instance1.offChange( inc1 );
+                instance2.offChange( inc1 );
+                instance3.offChange( inc1 );
+                instance4.offChange( inc1 );
+
+                instance2.write( 'newKey', 'onChangeTest', function ( success ) {
                     expect( success ).to.be.true;
                     expect( counter1 ).to.be.equal( 3 );
-                    expect( counter2 ).to.be.equal( 3 );
-
-                    instance1.offChange( inc1 );
-                    instance2.offChange( inc1 );
-                    instance3.offChange( inc1 );
-                    instance4.offChange( inc1 );
-
-                    instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                        setTimeout( function () {
-                            expect( success ).to.be.true;
-                            expect( counter1 ).to.be.equal( 3 );
-                            expect( counter2 ).to.be.equal( 6 );
-                            done();
-                        }, 10 );
-                    } );
-                }, 10 );
+                    expect( counter2 ).to.be.equal( 6 );
+                    done();
+                } );
             } );
         } );
 
@@ -223,23 +219,19 @@ describe( 'API Tests', function () {
             instance4.onChange( inc );
 
             instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                setTimeout( function () {
-                    expect( success ).to.be.true;
-                    expect( counter ).to.be.equal( 3 );
+                expect( success ).to.be.true;
+                expect( counter ).to.be.equal( 3 );
 
-                    instance1.offChange();
-                    instance2.offChange();
-                    instance3.offChange();
-                    instance4.offChange();
+                instance1.offChange();
+                instance2.offChange();
+                instance3.offChange();
+                instance4.offChange();
 
-                    instance2.write( 'newKey', 'onChangeTest', function ( success ) {
-                        setTimeout( function () {
-                            expect( success ).to.be.true;
-                            expect( counter ).to.be.equal( 3 );
-                            done();
-                        } );
-                    }, 10 );
-                }, 10 );
+                instance2.write( 'newKey', 'onChangeTest', function ( success ) {
+                        expect( success ).to.be.true;
+                        expect( counter ).to.be.equal( 3 );
+                        done();
+                    } );
             } );
         } );
 

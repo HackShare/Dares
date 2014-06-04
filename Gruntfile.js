@@ -88,6 +88,7 @@ module.exports = function (grunt) {
             Dares: {
                 src: 'test',
                 options: {
+                    reporter: 'spec',
                     coverage: true,
                     check: {
                         branches: 60,
