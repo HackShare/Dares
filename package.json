@@ -5,7 +5,7 @@
         "Alexander Zeilmann <alexander.zeilmann@tngtech.com>"
     ],
     "description": "A distributed heterogeneous dynamic quorum-based data replication system",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "repository": {
         "type": "git",
         "url": "https://github.com/TNG/Dares.git"

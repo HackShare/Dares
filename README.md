@@ -15,7 +15,7 @@ Getting started
 ### Install
 List Dares in your package.json:
 
-	"dares": "~0.0.1",
+	"dares": "~0.0.2",
 
 and run
 
