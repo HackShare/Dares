@@ -1,7 +1,7 @@
 Dares
-========
+=====
 
-[![Build Status](https://travis-ci.org/TNG/Dares.svg?branch=master)](https://travis-ci.org/TNG/Dares) [![Coverage Status](https://img.shields.io/coveralls/TNG/Dares.svg)](https://coveralls.io/r/TNG/Dares?branch=master) [![Dependency Status](https://david-dm.org/TNG/Dares.svg)](https://david-dm.org/TNG/Dares) [![devDependency Status](https://david-dm.org/TNG/Dares/dev-status.svg)](https://david-dm.org/TNG/Dares#info=devDependencies)
+[![Build Status](https://travis-ci.org/TNG/Dares.svg?branch=master)](https://travis-ci.org/TNG/Dares) [![Coverage Status](https://img.shields.io/coveralls/TNG/Dares.svg)](https://coveralls.io/r/TNG/Dares?branch=master) [![Code Climate](http://img.shields.io/codeclimate/github/TNG/Dares.svg)](https://codeclimate.com/github/TNG/Dares) [![Dependency Status](https://david-dm.org/TNG/Dares.svg)](https://david-dm.org/TNG/Dares) [![devDependency Status](https://david-dm.org/TNG/Dares/dev-status.svg)](https://david-dm.org/TNG/Dares#info=devDependencies)
 
 #### Distributed Heterogeneous Dynamic Quorum-based Data Replication
 
