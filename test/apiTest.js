@@ -93,6 +93,44 @@ describe( 'API Tests', function () {
         } );
 
 
+        it( 'getStoredValue', function ( done ) {
+            instance2.write( 'stored', 1337, function ( error ) {
+                expect( error ).to.be.null;
+                var counter = 0;
+                instance1.getStoredValue( 'stored', function ( error, val ) {
+                    expect( error ).to.be.null;
+                    if ( val && val.value === 1337 ) {
+                        counter++;
+                    }
+
+                    instance2.getStoredValue( 'stored', function ( error, val ) {
+                        expect( error ).to.be.null;
+                        if ( val && val.value === 1337 ) {
+                            counter++;
+                        }
+
+                        instance3.getStoredValue( 'stored', function ( error, val ) {
+                            expect( error ).to.be.null;
+                            if ( val && val.value === 1337 ) {
+                                counter++;
+                            }
+
+                            instance4.getStoredValue( 'stored', function ( error, val ) {
+                                expect( error ).to.be.null;
+                                if ( val && val.value === 1337 ) {
+                                    counter++;
+                                }
+                                expect( counter ).to.be.equal( 3 );
+
+                                done();
+                            } );
+                        } );
+                    } );
+                } );
+            } );
+        } );
+
+
         it( 'should register onNewKey listeners and remove specific listeners', function ( done ) {
             var counter1 = 0;
             var counter2 = 0;
