@@ -27,6 +27,7 @@
         "grunt-contrib-watch": "0.6.x",
         "grunt-jscs-checker": "0.4.x",
         "grunt-mocha-istanbul": "~1.4.0",
+        "grunt-notify": "~0.3.0",
         "grunt-shell": "0.7.x",
         "istanbul": "0.2.x",
         "jscs-jsdoc": "~0.0.6",

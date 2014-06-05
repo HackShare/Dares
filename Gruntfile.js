@@ -22,6 +22,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-docker');
     grunt.loadNpmTasks('grunt-jscs-checker');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
+    grunt.loadNpmTasks('grunt-notify');
 
     grunt.registerTask('help', function () {
         grunt.log.header('Dares');
