@@ -16,22 +16,22 @@ describe( 'API Tests', function () {
     var options3 = {};
     var options4 = {};
 
-    options1.logSettings = {
+    options1.logging = {
         console: 'error'
     };
 
     options2.alreadyRegisteredProcess = known;
-    options2.logSettings = {
+    options2.logging = {
         console: 'error'
     };
 
     options3.alreadyRegisteredProcess = known;
-    options3.logSettings = {
+    options3.logging = {
         console: 'error'
     };
 
     options4.alreadyRegisteredProcess = known;
-    options4.logSettings = {
+    options4.logging = {
         console: 'error'
     };
 

@@ -112,7 +112,7 @@ describe( 'Synchoneous Test', function () {
                 var someKnownInstance = daresInstances[0];
                 var alreadyRegisteredProcess = {
                     alreadyRegisteredProcess: 'localhost:' + someKnownInstance.options.port,
-                    logSettings: {
+                    logging: {
                         console: 'error'
                     }
                 };
@@ -269,7 +269,7 @@ describe( 'Synchoneous Test', function () {
         
         
         var firstInstance = new Dares( currentLastId, 9001, {
-            logSettings: {
+            logging: {
                 console: 'error'
             }
         } );
