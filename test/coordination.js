@@ -41,8 +41,8 @@ describe( 'Coordination', function () {
             process2 = {id: 2};
             keyVersion1 = {key1: 1};
             keyVersion2 = {key2: 2};
-            trueCoord._collectVotes( true, process1, keyVersion1 );
-            falseCoord._collectVotes( false, process2, keyVersion2 );
+            trueCoord.epochChangeCoordination._collectVotes( true, process1, keyVersion1 );
+            falseCoord.epochChangeCoordination._collectVotes( false, process2, keyVersion2 );
         } );
 
         it( 'positive vote: should have added the keyVersion object to the state, indexed with the processes id', function () {
@@ -87,11 +87,11 @@ describe( 'Coordination', function () {
         } );
 
         it( 'should recognize a right state', function () {
-            expect( rightCoord._allLocksReceived() ).to.be.true;
+            expect( rightCoord.epochChangeCoordination._allLocksReceived() ).to.be.true;
         } );
 
         it( 'should recognize a wrong state', function () {
-            expect( wrongCoord._allLocksReceived() ).to.be.false;
+            expect( wrongCoord.epochChangeCoordination._allLocksReceived() ).to.be.false;
         } );
     } );
 
@@ -113,11 +113,11 @@ describe( 'Coordination', function () {
         } );
 
         it( 'should recognize a right state', function () {
-            expect( rightCoord._noDeniedLocks() ).to.be.true;
+            expect( rightCoord.epochChangeCoordination._noDeniedLocks() ).to.be.true;
         } );
 
         it( 'should recognize a wrong state', function () {
-            expect( wrongCoord._noDeniedLocks() ).to.be.false;
+            expect( wrongCoord.epochChangeCoordination._noDeniedLocks() ).to.be.false;
         } );
     } );
 
@@ -142,7 +142,7 @@ describe( 'Coordination', function () {
                 }
 
             };
-            keyVersionMax = coord._updateItsReplicas._computeKeyMaxVersion( keyVersions );
+            keyVersionMax = coord.epochChangeCoordination._updateItsReplicas._computeKeyMaxVersion( keyVersions );
 
         } );
 
@@ -178,7 +178,7 @@ describe( 'Coordination', function () {
         var coord;
         var result;
         before( function () {
-            coord = new Coordination( {options: util.cloneObject( options )} );
+            coord = new Coordination( {id: 1, options: util.cloneObject( options )} );
             coord.state = {
                 keyVersions: {
                     1: {
@@ -187,7 +187,6 @@ describe( 'Coordination', function () {
                     }
                 }
             };
-            coord.process = {id: 1};
 
 
             keyVersionMax = {
@@ -196,17 +195,17 @@ describe( 'Coordination', function () {
                 nonPresentKey: {version: 2, id: '2'}
             };
 
-            result = coord._determineOutdatedKeys( keyVersionMax );
+            result = coord.epochChangeCoordination._determineOutdatedKeys( keyVersionMax );
         } );
 
         it( 'should not include a current key', function () {
             expect( result.outdated.currentKey ).to.be.undefined;
         } );
         it( 'should include an outdated key', function () {
-            expect( result.outdated.outdatedKey ).not.to.undefined;
+            expect( result.outdated.outdatedKey ).not.to.be.undefined;
         } );
         it( 'should include a key that is not present in the ', function () {
-            expect( result.outdated.nonPresentKey ).not.be.undefined;
+            expect( result.outdated.nonPresentKey ).not.to.be.undefined;
         } );
 
         describe( '#_processRead._allReadsReturned', function () {
@@ -227,11 +226,11 @@ describe( 'Coordination', function () {
             } );
 
             it( 'should recognize a right state', function () {
-                expect( rightCoord._allReadsReturned() ).to.be.true;
+                expect( rightCoord.readCoordination._allReadsReturned() ).to.be.true;
             } );
 
             it( 'should recognize a wrong state', function () {
-                expect( wrongCoord._allReadsReturned() ).to.be.false;
+                expect( wrongCoord.readCoordination._allReadsReturned() ).to.be.false;
             } );
         } );
 
