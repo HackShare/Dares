@@ -1,34 +1,84 @@
 {
+    // Load the jscs jsdoc plugin
     "additionalRules": [
         "node_modules/jscs-jsdoc/lib/rules/*.js"
     ],
-    "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
-    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
-    "requireParenthesesAroundIIFE": true,
-    "disallowLeftStickedOperators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
-    "disallowRightStickedOperators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", ","],
-    "requireOperatorBeforeLineBreak": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],   
-    "requireRightStickedOperators": ["!"],
-    "requireLeftStickedOperators": [","],
-    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
-    "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
-    "disallowImplicitTypeConversion": ["string"],
-    "disallowKeywords": ["with"],
-    "disallowKeywordsOnNewLine": ["else"],
-    "disallowMultipleVarDecl": true,
-    "disallowEmptyBlocks": true,
-    "disallowQuotedKeysInObjects": true,
-    "disallowSpaceAfterObjectKeys": true,
-    "requireCommaBeforeLineBreak": true,
-    "requireCapitalizedConstructors": true,
-    "requireDotNotation": true,
-    "disallowYodaConditions": true,
-    "requireLineFeedAtFileEnd": true,
+
+    "fileExtensions": [".js", ".json"],
+
+    // White space
+    // ===========
+
+    // Indentation
+    // -----------
+    "validateIndentation": 4,
+
+    // Function Expressions
+    // --------------------
     "requireSpacesInFunctionExpression": {
-        "beforeOpeningCurlyBrace": true,
-        "beforeOpeningRoundBrace": true
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
     },
-    "validateQuoteMarks": "'",
+
+
+    // Conditional Expressions
+    // -----------------------
+    // Like for binary operators we want spaces in coditional expressions.
+    "requireSpacesInConditionalExpression": {
+        "afterTest": true,
+        "beforeConsequent": true,
+        "afterConsequent": true,
+        "beforeAlternate": true
+    },
+
+
+    // Binary operators
+    // ----------------
+    // We want a space before and after every binary operator
+    // (except "," and ":", which only have spaces afterwards).
+    "requireSpaceBeforeBinaryOperators": ["=", "+=", "-=", "*=", "/=", "%=", "<<=",
+        ">>=", ">>>=", "&=", "|=", "^=", "+", "-", "*", "/", "%", "<<", ">>", ">>>",
+        "&", "|", "^", "&&", "||", "===", "==", ">=", "<=", "<", ">", "!=", "!=="
+    ],
+    "disallowSpaceBeforeBinaryOperators": [":", ","],
+    "requireSpaceAfterBinaryOperators": true,
+
+
+    // Unary operators
+    // ---------------
+    // We want no spaces between unary operators and the operand.
+    "disallowSpaceAfterPrefixUnaryOperators": true,
+    "disallowSpaceBeforePostfixUnaryOperators": true,
+
+
+    // Brackets
+    // --------
+    "requireSpacesInsideObjectBrackets": "allButNested",
+    //"requireSpacesInsideArrayBrackets": "allButNested",
+    "requireSpacesInsideParentheses": "allButNested",
+
+
+    // Comments
+    // --------
+    // "requireSpaceAfterLineComment": true,
+
+
+    // Blocks
+    // ------
+    "requireSpaceBeforeBlockStatements": true,
+
+
+    // Miscellaneous
+    // -------------
+    "disallowMixedSpacesAndTabs": true,
+    "disallowSpaceAfterObjectKeys": true,
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
+    // We can't prohibit trailing white spaces, since we need them for line breaks in markdown.
+    // "disallowTrailingWhitespace": true,
+
+    // JSDOC
+    // =====
+
     "jsDoc": {
         "checkParamNames": true,
         "checkRedundantParams": true,
@@ -37,5 +87,90 @@
         "checkRedundantReturns": true,
         "requireReturnTypes": true,
         "checkTypes": true
-    }
+    },
+
+
+    // Line breaks
+    // ===========
+
+    // Requires blocks to begin and end with a newline,
+    // except if there is only one statement in them.
+    "requireBlocksOnNewline": 1,
+
+    // Disallows blocks from beginning and ending with 2 newlines.
+    "disallowPaddingNewlinesInBlocks": true,
+
+    // Disallows strings that span multiple lines without using concatenation.
+    "disallowMultipleLineStrings": true,
+
+    // Requires operators to appear before line breaks and not after.
+    "requireOperatorBeforeLineBreak": true,
+
+    // Don't use the comma first style
+    "requireCommaBeforeLineBreak": true,
+
+    // Always put keywords, except of "else", on new lines.
+    // We can't include "if" here because of "else if" statements.
+    "requireKeywordsOnNewLine": ["for", "while", "do", "switch", "try", "catch", "case", "default"],
+    "disallowKeywordsOnNewLine": ["else"],
+
+    // Option to check line break characters
+    "validateLineBreaks": "LF",
+
+    // Requires placing line feed at file end.
+    "requireLineFeedAtFileEnd": true,
+
+
+    // Line length
+    // ===========
+
+    "maximumLineLength": {
+        "value": 140, // lines should be at most the number of characters specified
+        "tabSize": 2, // considered the tab character as number of specified spaces
+        "allowComments": true, // allows comments to break the rule
+        "allowUrlComments": true, // allows comments with long urls to break the rule
+        "allowRegex": true // allows regular expression literals to break the rule
+    },
+
+
+    // Variables
+    // =========
+
+    // Requires identifiers to be camelCased or UPPERCASE_WITH_UNDERSCORES
+    // "requireCamelCaseOrUpperCaseIdentifiers": true,
+
+    // Requires member expressions to use dot notation when possible
+    "requireDotNotation": true,
+    "disallowQuotedKeysInObjects": true,
+
+    // Requires constructors to be capitalized
+    "requireCapitalizedConstructors": true,
+
+
+    // Miscellaneous
+    // =============
+
+    // Disallows implicit type conversion.
+    "disallowImplicitTypeConversion": ["binary", "boolean", "string"],
+
+    // There should be no need to use the "with" keyword.
+    "disallowKeywords": ["with"],
+
+    // Use curly braces
+    "requireCurlyBraces": ["if", "else", "for", "while", "do", "switch", "try", "catch"],
+
+    // Requires parentheses around immediately invoked function expressions.
+    "requireParenthesesAroundIIFE": true,
+
+    // We use single quotes everywhere, because so we don't have problems with double quotes in HTML.
+    "validateQuoteMarks": "'",
+
+    // Requires the variable to be the left hand operator when doing a boolean comparison
+    "disallowYodaConditions": true,
+
+    // Disallows an extra comma following the final element of an array or object literal.
+    "disallowTrailingComma": true,
+
+    // Disallows empty blocks (except for catch blocks).
+    "disallowEmptyBlocks": true
 }
