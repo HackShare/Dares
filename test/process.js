@@ -8,7 +8,7 @@ var fs = require( 'fs' );
 var async = require( 'async' );
 
 
-describe.only( 'Process', function () {
+describe( 'Process', function () {
     var processBase;
     var processFileLogging;
     var processFalseStartup;

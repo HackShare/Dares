@@ -111,8 +111,8 @@
 
     // Always put keywords, except of "else", on new lines.
     // We can't include "if" here because of "else if" statements.
-    "requireKeywordsOnNewLine": ["for", "while", "do", "switch", "try", "catch", "case", "default"],
-    "disallowKeywordsOnNewLine": ["else"],
+    "requireKeywordsOnNewLine": ["for", "while", "do", "switch", "try", "case", "default"],
+    "disallowKeywordsOnNewLine": ["else", "catch"],
 
     // Option to check line break characters
     "validateLineBreaks": "LF",

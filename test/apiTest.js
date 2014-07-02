@@ -4,7 +4,6 @@ var expect = require( 'chai' ).expect;
 var Dares = require( '../lib/Dares.js' );
 
 describe( 'API Tests', function () {
-
     var known = 'localhost:9001';
     var instance1;
     var instance2;
@@ -36,14 +35,13 @@ describe( 'API Tests', function () {
     };
 
     before( function ( done ) {
-        instance1 = new Dares( 1, 9001, options1);
-        instance2 = new Dares( 2, 9002, options2);
-        instance3 = new Dares( 3, 9003, options3);
-        instance4 = new Dares( 4, 9004, options4);
+        instance1 = new Dares( 1, 9001, options1 );
+        instance2 = new Dares( 2, 9002, options2 );
+        instance3 = new Dares( 3, 9003, options3 );
+        instance4 = new Dares( 4, 9004, options4 );
         instance1.start( function () {
             done();
         } );
-
     } );
 
     describe( 'normal read and write', function () {
@@ -266,10 +264,10 @@ describe( 'API Tests', function () {
                 instance4.offChange();
 
                 instance2.write( 'newKey', 'onChangeTest', function ( error ) {
-                        expect( error ).to.be.falsy;
-                        expect( counter ).to.be.equal( 3 );
-                        done();
-                    } );
+                    expect( error ).to.be.falsy;
+                    expect( counter ).to.be.equal( 3 );
+                    done();
+                } );
             } );
         } );
 
@@ -287,5 +285,4 @@ describe( 'API Tests', function () {
     after( function ( done ) {
         instance1.stop( done );
     } );
-
 } );

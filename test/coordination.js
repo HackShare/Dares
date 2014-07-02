@@ -7,9 +7,7 @@ var options = require( '../lib/Dares/defaults.js' );
 
 
 describe( 'Coordination', function () {
-
     describe( '#_collectVotes', function () {
-
         var trueCoord;
         var falseCoord;
         var process1;
@@ -18,8 +16,8 @@ describe( 'Coordination', function () {
         var keyVersion2;
 
         before( function () {
-            trueCoord = new Coordination( {options: util.cloneObject( options )} );
-            falseCoord = new Coordination( {options: util.cloneObject( options )} );
+            trueCoord = new Coordination( { options: util.cloneObject( options ) } );
+            falseCoord = new Coordination( { options: util.cloneObject( options ) } );
 
             trueCoord.state = {
                 keyVersions: {},
@@ -37,10 +35,10 @@ describe( 'Coordination', function () {
             };
             falseCoord.busy = [];
 
-            process1 = {id: 1};
-            process2 = {id: 2};
-            keyVersion1 = {key1: 1};
-            keyVersion2 = {key2: 2};
+            process1 = { id: 1 };
+            process2 = { id: 2 };
+            keyVersion1 = { key1: 1 };
+            keyVersion2 = { key2: 2 };
             trueCoord.epochChangeCoordination._collectVotes( true, process1, keyVersion1 );
             falseCoord.epochChangeCoordination._collectVotes( false, process2, keyVersion2 );
         } );
@@ -63,7 +61,7 @@ describe( 'Coordination', function () {
         } );
 
         it( 'negative vote: should have added the process to the busy processes list', function () {
-            expect( util.getIndexForId( falseCoord.busy, process2.id ) ).not.to.equal( -1 );
+            expect( util.getIndexForId( falseCoord.busy, process2.id )).not.to.equal( -1 );
         } );
     } );
 
@@ -72,17 +70,17 @@ describe( 'Coordination', function () {
         var wrongCoord;
 
         before( function () {
-            rightCoord = new Coordination( {options: util.cloneObject( options )} );
-            wrongCoord = new Coordination( {options: util.cloneObject( options )} );
+            rightCoord = new Coordination( { options: util.cloneObject( options ) } );
+            wrongCoord = new Coordination( { options: util.cloneObject( options ) } );
             rightCoord.state = {
                 receivedLocks: 4,
                 deniedLocks: 5,
-                quorum: {length: 9}
+                quorum: { length: 9 }
             };
             wrongCoord.state = {
                 receivedLocks: 4,
                 deniedLocks: 5,
-                quorum: {length: 10}
+                quorum: { length: 10 }
             };
         } );
 
@@ -100,8 +98,8 @@ describe( 'Coordination', function () {
         var wrongCoord;
 
         before( function () {
-            rightCoord = new Coordination( {options: util.cloneObject( options )} );
-            wrongCoord = new Coordination( {options: util.cloneObject( options )} );
+            rightCoord = new Coordination( { options: util.cloneObject( options ) } );
+            wrongCoord = new Coordination( { options: util.cloneObject( options ) } );
             rightCoord.state = {
                 receivedLocks: 4,
                 deniedLocks: 0
@@ -126,24 +124,22 @@ describe( 'Coordination', function () {
         var keyVersionMax;
         var coord;
         before( function () {
-            coord = new Coordination( {options: util.cloneObject( options )} );
+            coord = new Coordination( { options: util.cloneObject( options ) } );
             keyVersions = {
                 1: {
-                    key1: {version: 1},
-                    key2: {version: 3}
+                    key1: { version: 1 },
+                    key2: { version: 3 }
                 },
                 2: {
-                    key1: {version: 3},
-                    key3: {version: 0}
+                    key1: { version: 3 },
+                    key3: { version: 0 }
                 },
                 3: {
-                    key3: {version: -1},
-                    key2: {version: 1}
+                    key3: { version: -1 },
+                    key2: { version: 1 }
                 }
-
             };
             keyVersionMax = coord.epochChangeCoordination._updateItsReplicas._computeKeyMaxVersion( keyVersions );
-
         } );
 
         it( 'should only contain the provided keys', function () {
@@ -178,21 +174,21 @@ describe( 'Coordination', function () {
         var coord;
         var result;
         before( function () {
-            coord = new Coordination( {id: 1, options: util.cloneObject( options )} );
+            coord = new Coordination( { id: 1, options: util.cloneObject( options ) } );
             coord.state = {
                 keyVersions: {
                     1: {
-                        currentKey: {version: 1},
-                        outdatedKey: {version: 3}
+                        currentKey: { version: 1 },
+                        outdatedKey: { version: 3 }
                     }
                 }
             };
 
 
             keyVersionMax = {
-                currentKey: {version: 1, id: '3'},
-                outdatedKey: {version: 4, id: '4'},
-                nonPresentKey: {version: 2, id: '2'}
+                currentKey: { version: 1, id: '3' },
+                outdatedKey: { version: 4, id: '4' },
+                nonPresentKey: { version: 2, id: '2' }
             };
 
             result = coord.epochChangeCoordination._determineOutdatedKeys( keyVersionMax );
@@ -213,15 +209,15 @@ describe( 'Coordination', function () {
             var wrongCoord;
 
             before( function () {
-                rightCoord = new Coordination( {options: util.cloneObject( options )} );
-                wrongCoord = new Coordination( {options: util.cloneObject( options )} );
+                rightCoord = new Coordination( { options: util.cloneObject( options ) } );
+                wrongCoord = new Coordination( { options: util.cloneObject( options ) } );
                 rightCoord.state = {
                     receivedReads: 4,
-                    quorum: {length: 4}
+                    quorum: { length: 4 }
                 };
                 wrongCoord.state = {
                     receivedReads: 4,
-                    quorum: {length: 2}
+                    quorum: { length: 2 }
                 };
             } );
 
@@ -233,7 +229,5 @@ describe( 'Coordination', function () {
                 expect( wrongCoord.readCoordination._allReadsReturned() ).to.be.false;
             } );
         } );
-
-
     } );
 } );

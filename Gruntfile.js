@@ -13,55 +13,55 @@
  *
  */
 
-module.exports = function (grunt) {
+module.exports = function ( grunt ) {
     'use strict';
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-coveralls');
-    grunt.loadNpmTasks('grunt-docker');
-    grunt.loadNpmTasks('grunt-jscs-checker');
-    grunt.loadNpmTasks('grunt-mocha-istanbul');
-    grunt.loadNpmTasks('grunt-notify');
+    grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+    grunt.loadNpmTasks( 'grunt-contrib-watch' );
+    grunt.loadNpmTasks( 'grunt-coveralls' );
+    grunt.loadNpmTasks( 'grunt-docker' );
+    grunt.loadNpmTasks( 'grunt-jscs-checker' );
+    grunt.loadNpmTasks( 'grunt-mocha-istanbul' );
+    grunt.loadNpmTasks( 'grunt-notify' );
 
-    grunt.registerTask('help', function () {
-        grunt.log.header('Dares');
+    grunt.registerTask( 'help', function () {
+        grunt.log.header( 'Dares' );
 
-        grunt.log.writeln('This is the help for the grunt tasks in Dares v' + grunt.file.readJSON('package.json').version + '.');
-        grunt.log.writeln('If you are looking for the documentation to Dares.js itself, run ');
-        grunt.log.writeln('\tgrunt docker');
-        grunt.log.writeln('and open the docs/lib/Dares/Dares.js.html file.');
+        grunt.log.writeln( 'This is the help for the grunt tasks in Dares v' + grunt.file.readJSON( 'package.json' ).version + '.' );
+        grunt.log.writeln( 'If you are looking for the documentation to Dares.js itself, run ' );
+        grunt.log.writeln( '\tgrunt docker' );
+        grunt.log.writeln( 'and open the docs/lib/Dares/Dares.js.html file.' );
 
-        grunt.log.subhead('Committing');
-        grunt.log.writeln('grunt push\t\t\tgit push the repository');
-        grunt.log.writeln('grunt precommit\t\t\tRun this task before committing something. ');
+        grunt.log.subhead( 'Committing' );
+        grunt.log.writeln( 'grunt push\t\t\tgit push the repository' );
+        grunt.log.writeln( 'grunt precommit\t\t\tRun this task before committing something. ' );
 
-        grunt.log.subhead('Tests');
-        grunt.log.writeln('grunt test\t\t\tRuns the tests');
+        grunt.log.subhead( 'Tests' );
+        grunt.log.writeln( 'grunt test\t\t\tRuns the tests' );
 
-        grunt.log.subhead('Documentation');
-        grunt.log.writeln('grunt docker\t\t\tGenerates the documentation files');
+        grunt.log.subhead( 'Documentation' );
+        grunt.log.writeln( 'grunt docker\t\t\tGenerates the documentation files' );
 
-        grunt.log.subhead('Code quality checks');
-        grunt.log.writeln('grunt jshint\t\t\tRuns the JSHint Linter (Possible arguments: Dares, test, grunt)');
-        grunt.log.writeln('grunt jscs\t\t\tRuns the JavaScript Code Style checker (Possible arguments: Dares, test, grunt)');
-    });
+        grunt.log.subhead( 'Code quality checks' );
+        grunt.log.writeln( 'grunt jshint\t\t\tRuns the JSHint Linter (Possible arguments: Dares, test, grunt)' );
+        grunt.log.writeln( 'grunt jscs\t\t\tRuns the JavaScript Code Style checker (Possible arguments: Dares, test, grunt)' );
+    } );
 
-    grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
+    grunt.initConfig( {
+        pkg: grunt.file.readJSON( 'package.json' ),
 
         watch: {
             Dares: {
-                files: ['lib/*.js', 'lib/Dares/*.js', 'lib/Dares/**/*.js'],
-                tasks: ['docker', 'jshint:Dares', 'jscs:Dares']
+                files: [ 'lib/*.js', 'lib/Dares/*.js', 'lib/Dares/**/*.js' ],
+                tasks: [ 'docker', 'jshint:Dares', 'jscs:Dares' ]
             },
             test: {
-                files: ['test/*.js'],
-                tasks: ['jshint:test', 'jscs:test']
+                files: [ 'test/*.js' ],
+                tasks: [ 'jshint:test', 'jscs:test' ]
             },
             grunt: {
-                files: ['Gruntfile.js'],
-                tasks: ['jshint:grunt', 'jscs:grunt']
+                files: [ 'Gruntfile.js' ],
+                tasks: [ 'jshint:grunt', 'jscs:grunt' ]
             }
         },
 
@@ -69,20 +69,20 @@ module.exports = function (grunt) {
             options: {
                 jshintrc: true
             },
-            Dares: ['lib/*.js', 'lib/Dares/*.js', 'lib/Dares/**/*.js'],
+            Dares: [ 'lib/*.js', 'lib/Dares/*.js', 'lib/Dares/**/*.js' ],
             test: {
-                src: ['test/*.js'],
+                src: [ 'test/*.js' ],
                 options: {
                     expr: true
                 }
             },
-            grunt: ['Gruntfile.js']
+            grunt: [ 'Gruntfile.js' ]
         },
 
         jscs: {
-            Dares: ['lib/*.js', 'lib/Dares/*.js', 'lib/Dares/**/*.js'],
-            test: ['test/*.js'],
-            grunt: ['Gruntfile.js']
+            Dares: [ 'lib/*.js', 'lib/Dares/*.js', 'lib/Dares/**/*.js' ],
+            test: [ 'test/*.js' ],
+            grunt: [ 'Gruntfile.js' ]
         },
 
         mocha_istanbul: {
@@ -98,7 +98,7 @@ module.exports = function (grunt) {
                         statements: 85
                     },
                     root: './lib',
-                    reportFormats: ['lcov']
+                    reportFormats: [ 'lcov' ]
                 }
             }
         },
@@ -117,7 +117,7 @@ module.exports = function (grunt) {
                 colourScheme: 'monokai'
             },
             Dares: {
-                src: ['lib/*.js', 'lib/**/*.js'],
+                src: [ 'lib/*.js', 'lib/**/*.js' ],
                 dest: 'docs'
             }
         },
@@ -131,15 +131,15 @@ module.exports = function (grunt) {
                 command: 'git push --all origin'
             }
         }
-    });
+    } );
 
-    grunt.event.on('coverage', function ( lcovFileContents, done ) {
+    grunt.event.on( 'coverage', function ( lcovFileContents, done ) {
         done();
-    });
+    } );
 
-    grunt.registerTask('test', ['mocha_istanbul']);
-    grunt.registerTask('push', ['shell:push']);
-    grunt.registerTask('precommit', ['mocha_istanbul', 'jshint', 'jscs', 'docker']);
-    grunt.registerTask('default', ['help']);
-    grunt.registerTask('continuousIntegration', ['test', 'coveralls']);
+    grunt.registerTask( 'test', [ 'mocha_istanbul' ] );
+    grunt.registerTask( 'push', [ 'shell:push' ] );
+    grunt.registerTask( 'precommit', [ 'mocha_istanbul', 'jshint', 'jscs', 'docker' ] );
+    grunt.registerTask( 'default', [ 'help' ] );
+    grunt.registerTask( 'continuousIntegration', [ 'test', 'coveralls' ] );
 };

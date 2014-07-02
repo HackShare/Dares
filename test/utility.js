@@ -4,21 +4,20 @@ var utility = require( '../lib/Dares/utility.js' );
 var expect = require( 'chai' ).expect;
 
 describe( 'Utility', function () {
-
     var sampleList;
     var sampleEdges;
 
     beforeEach( function ( done ) {
         sampleList = [
-            {address: '127.0.0.1', port: 9000, id: 0},
-            {address: 'localhost', port: 9005, id: 4},
-            {address: '127.0.0.1', port: 9001, id: 3},
-            {address: '127.0.0.1', port: 9002, id: 2},
-            {address: '127.0.0.1', port: 9003, id: 1},
-            {address: '127.0.0.1', port: 9004, id: 5}
+            { address: '127.0.0.1', port: 9000, id: 0 },
+            { address: 'localhost', port: 9005, id: 4 },
+            { address: '127.0.0.1', port: 9001, id: 3 },
+            { address: '127.0.0.1', port: 9002, id: 2 },
+            { address: '127.0.0.1', port: 9003, id: 1 },
+            { address: '127.0.0.1', port: 9004, id: 5 }
         ];
         sampleEdges = sampleList.map( function ( process ) {
-            return {target: process};
+            return { target: process };
         } );
         done();
     } );
@@ -102,7 +101,7 @@ describe( 'Utility', function () {
         } );
         it( 'should delete a duplicate', function () {
             var sampleList2 = sampleList.concat( [
-                {address: '127.0.0.1', port: 9001, id: 3}
+                { address: '127.0.0.1', port: 9001, id: 3 }
             ] );
             var list2 = utility.reduceById( sampleList2 );
 
@@ -152,7 +151,7 @@ describe( 'Utility', function () {
             expect( process3 ).to.be.equal( undefined );
         } );
         it( 'should not alter the list otherwise', function () {
-            var list2 = utility.deleteById( [10, 11, 12], sampleList );
+            var list2 = utility.deleteById( [ 10, 11, 12 ], sampleList );
 
             expect( list2 ).to.be.deep.equal( sampleList );
         } );
@@ -173,9 +172,8 @@ describe( 'Utility', function () {
 
             expect( edge.target.id ).to.be.equal( 5 );
             expect( edge2 ).to.be.equal( undefined );
-
-
         } );
+
         it( 'should not alter the list otherwise', function () {
             var list2 = utility.deleteEdgeById( 10, sampleEdges );
 
@@ -185,10 +183,10 @@ describe( 'Utility', function () {
 
     describe( '#jsonToPrettyString', function () {
         it( 'should behave exactly like  JSON.stringify( -input-, undefined, 2 )', function () {
-            expect( utility.jsonToPrettyString( sampleEdges) ).to.be.deep.equal( JSON.stringify( sampleEdges, undefined, 2 ));
-            expect( utility.jsonToPrettyString( sampleList) ).to.be.deep.equal( JSON.stringify( sampleList, undefined, 2 ));
-            expect( utility.jsonToPrettyString( sampleEdges[2]) ).to.be.deep.equal( JSON.stringify( sampleEdges[2], undefined, 2 ));
-            expect( utility.jsonToPrettyString( sampleList[2]) ).to.be.deep.equal( JSON.stringify( sampleList[2], undefined, 2 ));
+            expect( utility.jsonToPrettyString( sampleEdges ) ).to.be.deep.equal( JSON.stringify( sampleEdges, undefined, 2 ));
+            expect( utility.jsonToPrettyString( sampleList ) ).to.be.deep.equal( JSON.stringify( sampleList, undefined, 2 ));
+            expect( utility.jsonToPrettyString( sampleEdges[ 2 ] )).to.be.deep.equal( JSON.stringify( sampleEdges[ 2 ], undefined, 2 ));
+            expect( utility.jsonToPrettyString( sampleList[ 2 ] )).to.be.deep.equal( JSON.stringify( sampleList[ 2 ], undefined, 2 ));
         } );
     } );
 
@@ -214,7 +212,5 @@ describe( 'Utility', function () {
             expect( process.id ).to.be.equal( 5 );
             expect( idOfProcess ).not.to.equal( -1 );
         } );
-
-
     } );
 } );

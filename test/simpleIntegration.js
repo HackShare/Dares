@@ -7,7 +7,6 @@ var util = require( '../lib/Dares/utility.js' );
 
 
 describe( 'Integration Tests', function () {
-
     var known = 'localhost:8001';
     var process1;
     var process2;
@@ -47,18 +46,16 @@ describe( 'Integration Tests', function () {
     };
 
     before( function ( done ) {
-        process1 = new Process( {options: options1}, function () {
+        process1 = new Process( { options: options1 }, function () {
             done();
         } );
     } );
 
     describe( 'normal read and write', function () {
         before( function ( done ) {
-            process2 = new Process( {options: options2}, function () {
-
-                process3 = new Process( {options: options3}, function () {
-
-                    process4 = new Process( {options: options4}, function () {
+            process2 = new Process( { options: options2 }, function () {
+                process3 = new Process( { options: options3 }, function () {
+                    process4 = new Process( { options: options4 }, function () {
                         done();
                     } );
                 } );
@@ -81,5 +78,4 @@ describe( 'Integration Tests', function () {
     after( function ( done ) {
         process1.stop( done );
     } );
-
 } );

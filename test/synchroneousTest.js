@@ -4,7 +4,6 @@ var expect = require( 'chai' ).expect;
 var Dares = require( '../lib/Dares' );
 
 describe( 'Synchoneous Test', function () {
-
     it( 'should be able to randomly read and write under varying conditions', function ( done ) {
         this.timeout( 10000 );
         var upperBoundForPool = 20;
@@ -13,7 +12,7 @@ describe( 'Synchoneous Test', function () {
         var maxStopPerIteration = 1;
         var maxAddPerIteration = 2;
 
-        var keyPool = ['key1', 'key2', 'key3', 'key4'];
+        var keyPool = [ 'key1', 'key2', 'key3', 'key4' ];
         var allActions;
 
         var rwPerIteration = 40;
@@ -41,7 +40,7 @@ describe( 'Synchoneous Test', function () {
             var res = {};
             for ( var key in keys ) {
                 if ( keys.hasOwnProperty( key ) ) {
-                    res[keys[key]] = {value: null, continuous: [], separate: []};
+                    res[ keys[ key ]] = { value: null, continuous: [], separate: [] };
                 }
             }
             return res;
@@ -50,22 +49,23 @@ describe( 'Synchoneous Test', function () {
 
         var addInstancesAndRW = function () {
             if ( daresInstances.length < upperBoundForPool ) {
-                newInstanceData = getInstanceData( getRandomInt( 1, Math.min( upperBoundForPool - daresInstances.length, maxAddPerIteration ) ) );
+                newInstanceData = getInstanceData(
+                    getRandomInt( 1, Math.min( upperBoundForPool - daresInstances.length, maxAddPerIteration ))
+                );
             }
             insertSeparatorToRes();
             startInstances( function () {
-                    beginRandomReadsAndWrites( rwPerIteration, function () {
-                        if ( iterations ) {
-                            iterations--;
-                            shutInstanceDownAndRW();
-                        } else {
-                            setTimeout( function () {
-                                endIt();
-                            }, 100 );
-                        }
-                    }, true );
-                }
-            );
+                beginRandomReadsAndWrites( rwPerIteration, function () {
+                    if ( iterations ) {
+                        iterations--;
+                        shutInstanceDownAndRW();
+                    } else {
+                        setTimeout( function () {
+                            endIt();
+                        }, 100 );
+                    }
+                }, true );
+            } );
         };
 
 
@@ -117,16 +117,16 @@ describe( 'Synchoneous Test', function () {
                     }
                 };
                 
-                var newInstance = new Dares( nextData.id, nextData.port, alreadyRegisteredProcess);
+                var newInstance = new Dares( nextData.id, nextData.port, alreadyRegisteredProcess );
 
-                daresInstances.push(newInstance);
-                newInstance.start(function (error) {
-                    if (error){
+                daresInstances.push( newInstance );
+                newInstance.start( function ( error ) {
+                    if ( error ) {
                         daresInstances.pop();
-                        newInstanceData.push(nextData);
+                        newInstanceData.push( nextData );
                     }
                     startInstances( continueWith );
-                });
+                } );
             }
         };
 
@@ -141,13 +141,11 @@ describe( 'Synchoneous Test', function () {
 
 
         var beginRandomReadsAndWrites = function ( n, afterwards, read ) {
-
             var randomInstance = getRandomInstance();
             if ( n > 0 ) {
                 var key = getRandomKey();
                 var value = getRandomIntPredefined();
                 if ( !read && getRandomInt( 0, 1 ) ) {
-
                     randomInstance.write( key, value,
                         function ( error ) {
                             if ( !error ) {
@@ -171,13 +169,12 @@ describe( 'Synchoneous Test', function () {
                                 allActions[key].continuous.push( 'read ' + returnObj.value );
                                 if ( returnObj.value !== null ) {
                                     var length = allActions[key].separate.length;
-                                    allActions[key].separate[(length - 1)].push( returnObj.value );
+                                    allActions[ key ].separate[ ( length - 1 ) ].push( returnObj.value );
                                 }
                                 if ( returnObj.value !== allActions[key].value ) {
                                     console.log( 'wrong read!' );
                                     console.log( 'read: ' +  returnObj.value + ', actual value: ' + allActions[key].value );
                                 }
-
                             } else {
                                 allActions[key].continuous.push( 'failed to read ' );
                                 console.log( 'Reading ' + key + ' was not successful' );
@@ -205,8 +202,8 @@ describe( 'Synchoneous Test', function () {
 
             var separate;
             for ( var j = 0; j < keyPool.length; j++ ) {
-                key = keyPool[j];
-                separate = checkSeparate( allActions[key].separate );
+                key = keyPool[ j ];
+                separate = checkSeparate( allActions[ key ].separate );
                 expect( separate ).to.be.true;
                 if ( !separate ) {
                     console.log( 'key "' + key + '" violates continuous integrity.' );
@@ -215,11 +212,10 @@ describe( 'Synchoneous Test', function () {
         };
 
         var checkSeparate = function ( sepArr ) {
-
             var partialArrIsHomogen = function ( smallArr ) {
                 if ( smallArr.length > 0 ) {
                     for ( var i = 1; i < smallArr.length; i++ ) {
-                        if ( smallArr[i] !== smallArr[0] ) {
+                        if ( smallArr[i] !== smallArr[ 0 ] ) {
                             return false;
                         }
                     }
@@ -229,7 +225,7 @@ describe( 'Synchoneous Test', function () {
 
 
             for ( var i = 0; i < sepArr.length; i++ ) {
-                if ( !partialArrIsHomogen( sepArr[i] ) ) {
+                if ( !partialArrIsHomogen( sepArr[ i ] )) {
                     return false;
                 }
             }
@@ -239,15 +235,15 @@ describe( 'Synchoneous Test', function () {
 
         var getRandomInstance = function () {
             var randInt = getRandomInt( 0, daresInstances.length - 1 );
-            return daresInstances[randInt];
+            return daresInstances[ randInt ];
         };
 
         var getRandomInt = function ( min, max ) {
-            return Math.floor( Math.random() * (max - min + 1) ) + min;
+            return Math.floor( Math.random() * ( max - min + 1 )) + min;
         };
 
         var getRandomKey = function () {
-            return keyPool[getRandomInt( 0, keyPool.length - 1 )];
+            return keyPool[ getRandomInt( 0, keyPool.length - 1 ) ];
         };
 
         var getRandomIntPredefined = function () {
@@ -259,11 +255,8 @@ describe( 'Synchoneous Test', function () {
             startInstances( function () {
                 beginRandomReadsAndWrites( rwPerIteration, shutInstanceDownAndRW );
             } );
-
         };
-
         //actual code
-
 
         allActions = initiateAllActions( keyPool );
         
