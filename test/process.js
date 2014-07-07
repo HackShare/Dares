@@ -2,10 +2,10 @@
 
 var Process = require( '../lib/Dares/process.js' );
 var expect = require( 'chai' ).expect;
-var util = require( '../lib/Dares/utility.js' );
 var options = require( '../lib/Dares/defaults.js' );
 var fs = require( 'fs' );
 var async = require( 'async' );
+var clone = require( 'lodash.clone' );
 
 
 describe( 'Process', function () {
@@ -17,13 +17,13 @@ describe( 'Process', function () {
 
 
     before( function () {
-        var optionsBase = util.cloneObject( options );
+        var optionsBase = clone( options );
         optionsBase.id = 1;
         optionsBase.port = 9501;
         optionsBase.logging = false;
         processBase = new Process( { options: optionsBase }, function () {} );
 
-        var optionsFileLogging = util.cloneObject( options );
+        var optionsFileLogging = clone( options );
         optionsFileLogging.id = 2;
         optionsFileLogging.port = 9502;
         optionsFileLogging.logging = {
@@ -33,12 +33,12 @@ describe( 'Process', function () {
 
 
 
-        var optionsDefaultLogging = util.cloneObject( options );
+        var optionsDefaultLogging = clone( options );
         optionsDefaultLogging.id = 6;
         optionsDefaultLogging.port = 9506;
         processDefaultLogging = new Process( { options: optionsDefaultLogging }, function () {} );
 
-        var optionsCustomConsoleLogging = util.cloneObject( options );
+        var optionsCustomConsoleLogging = clone( options );
         optionsCustomConsoleLogging.id = 7;
         optionsCustomConsoleLogging.port = 9507;
         optionsCustomConsoleLogging.logging = {
@@ -50,7 +50,7 @@ describe( 'Process', function () {
     describe( 'normal start', function () {
         var processGoodStart;
         before( function ( done ) {
-            var optionsGoodStart = util.cloneObject( options );
+            var optionsGoodStart = clone( options );
             optionsGoodStart.id = 8;
             optionsGoodStart.port = 9508;
             optionsGoodStart.logging = false;
@@ -85,7 +85,7 @@ describe( 'Process', function () {
 
 
     it( 'should false startup', function ( done ) {
-        var optionsFalseStartup = util.cloneObject( options );
+        var optionsFalseStartup = clone( options );
         optionsFalseStartup.id = 3;
         optionsFalseStartup.port = 9503;
         optionsFalseStartup.logging = false;
@@ -98,7 +98,7 @@ describe( 'Process', function () {
 
 
     it( 'todo name', function ( done ) {
-        var optionsNotAdded = util.cloneObject( options );
+        var optionsNotAdded = clone( options );
         optionsNotAdded.id = 4;
         optionsNotAdded.port = 9504;
         optionsNotAdded.logging = false;
@@ -112,7 +112,7 @@ describe( 'Process', function () {
                     processNotAdded.tunnel.send( json, '127.0.0.1', 9505 );
                 };
 
-                var options5 = util.cloneObject( options );
+                var options5 = clone( options );
                 options5.id = 5;
                 options5.port = 9505;
                 options5.logging = false;

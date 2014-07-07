@@ -17,6 +17,9 @@
     }],
     "dependencies": {
         "async": "0.9.0",
+        "lodash.clone": "2.4.1",
+        "lodash.defaults": "2.4.1",
+        "lodash.shuffle": "2.4.1",
         "winston": "0.7.x"
     },
     "devDependencies": {

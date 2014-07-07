@@ -3,8 +3,8 @@
 var Process = require( '../lib/Dares/process.js' );
 var Storage = require( '../lib/Dares/storage.js' );
 var expect = require( 'chai' ).expect;
-var util = require( '../lib/Dares/utility.js' );
 var options = require( '../lib/Dares/defaults.js' );
+var clone = require( 'lodash.clone' );
 
 
 describe( 'Storage', function () {
@@ -13,7 +13,7 @@ describe( 'Storage', function () {
 
 
     before( function () {
-        var optionsBase = util.cloneObject( options );
+        var optionsBase = clone( options );
         optionsBase.id = 1;
         optionsBase.port = 9901;
         optionsBase.logging = false;

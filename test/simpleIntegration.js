@@ -3,7 +3,7 @@
 var expect = require( 'chai' ).expect;
 var Process = require( '../lib/Dares/process.js' );
 var options = require( '../lib/Dares/defaults.js' );
-var util = require( '../lib/Dares/utility.js' );
+var clone = require( 'lodash.clone' );
 
 
 describe( 'Integration Tests', function () {
@@ -13,10 +13,10 @@ describe( 'Integration Tests', function () {
     var process3;
     var process4;
 
-    var options1 = util.cloneObject( options );
-    var options2 = util.cloneObject( options );
-    var options3 = util.cloneObject( options );
-    var options4 = util.cloneObject( options );
+    var options1 = clone( options );
+    var options2 = clone( options );
+    var options3 = clone( options );
+    var options4 = clone( options );
 
     options1.id = 1;
     options1.port = 8001;

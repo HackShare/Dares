@@ -4,6 +4,7 @@ var Coordination = require( '../lib/Dares/coordination.js' );
 var expect = require( 'chai' ).expect;
 var util = require( '../lib/Dares/utility.js' );
 var options = require( '../lib/Dares/defaults.js' );
+var clone = require( 'lodash.clone' );
 
 
 describe( 'Coordination', function () {
@@ -16,8 +17,8 @@ describe( 'Coordination', function () {
         var keyVersion2;
 
         before( function () {
-            trueCoord = new Coordination( { options: util.cloneObject( options ) } );
-            falseCoord = new Coordination( { options: util.cloneObject( options ) } );
+            trueCoord = new Coordination( { options: clone( options ) } );
+            falseCoord = new Coordination( { options: clone( options ) } );
 
             trueCoord.state = {
                 keyVersions: {},
@@ -70,8 +71,8 @@ describe( 'Coordination', function () {
         var wrongCoord;
 
         before( function () {
-            rightCoord = new Coordination( { options: util.cloneObject( options ) } );
-            wrongCoord = new Coordination( { options: util.cloneObject( options ) } );
+            rightCoord = new Coordination( { options: clone( options ) } );
+            wrongCoord = new Coordination( { options: clone( options ) } );
             rightCoord.state = {
                 receivedLocks: 4,
                 deniedLocks: 5,
@@ -98,8 +99,8 @@ describe( 'Coordination', function () {
         var wrongCoord;
 
         before( function () {
-            rightCoord = new Coordination( { options: util.cloneObject( options ) } );
-            wrongCoord = new Coordination( { options: util.cloneObject( options ) } );
+            rightCoord = new Coordination( { options: clone( options ) } );
+            wrongCoord = new Coordination( { options: clone( options ) } );
             rightCoord.state = {
                 receivedLocks: 4,
                 deniedLocks: 0
@@ -124,7 +125,7 @@ describe( 'Coordination', function () {
         var keyVersionMax;
         var coord;
         before( function () {
-            coord = new Coordination( { options: util.cloneObject( options ) } );
+            coord = new Coordination( { options: clone( options ) } );
             keyVersions = {
                 1: {
                     key1: { version: 1 },
@@ -174,7 +175,7 @@ describe( 'Coordination', function () {
         var coord;
         var result;
         before( function () {
-            coord = new Coordination( { id: 1, options: util.cloneObject( options ) } );
+            coord = new Coordination( { id: 1, options: clone( options ) } );
             coord.state = {
                 keyVersions: {
                     1: {
@@ -209,8 +210,8 @@ describe( 'Coordination', function () {
             var wrongCoord;
 
             before( function () {
-                rightCoord = new Coordination( { options: util.cloneObject( options ) } );
-                wrongCoord = new Coordination( { options: util.cloneObject( options ) } );
+                rightCoord = new Coordination( { options: clone( options ) } );
+                wrongCoord = new Coordination( { options: clone( options ) } );
                 rightCoord.state = {
                     receivedReads: 4,
                     quorum: { length: 4 }
